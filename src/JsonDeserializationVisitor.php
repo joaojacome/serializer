@@ -178,7 +178,10 @@ final class JsonDeserializationVisitor extends AbstractVisitor implements Deseri
         }
 
         if (!array_key_exists($name, $data)) {
-            throw new NotAcceptableException();
+            if (true !== $metadata->hasDefault) {
+                throw new NotAcceptableException();
+            }
+            $data[$name] = $metadata->defaultValue;
         }
 
         if (!$metadata->type) {
