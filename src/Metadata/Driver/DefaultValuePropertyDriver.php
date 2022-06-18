@@ -42,7 +42,7 @@ class DefaultValuePropertyDriver implements DriverInterface
             try {
                 $propertyReflection = $this->getPropertyReflection($propertyMetadata);
                 $propertyMetadata->hasDefault = false;
-                if ($propertyReflection->hasDefaultValue()) {
+                if ($propertyReflection->hasDefaultValue() && $propertyReflection->hasType()) {
                     $propertyMetadata->hasDefault = true;
                     $propertyMetadata->defaultValue = $propertyReflection->getDefaultValue();
                 } elseif ($propertyReflection->isPromoted()) {
