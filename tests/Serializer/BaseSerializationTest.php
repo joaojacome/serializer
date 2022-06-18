@@ -1472,9 +1472,7 @@ abstract class BaseSerializationTest extends TestCase
         $builder->includeInterfaceMetadata(true);
         $this->serializer = $builder->build();
 
-        $vase = new TypedProperties\ConstructorPromotion\Vase(
-            'blue',
-        );
+        $vase = new TypedProperties\ConstructorPromotion\Vase('blue');
         $result = $this->serialize($vase);
         self::assertEquals($this->getContent('typed_props_constructor_promotion_with_default_values'), $result);
         if ($this->hasDeserializer()) {
