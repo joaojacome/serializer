@@ -22,6 +22,7 @@ use JMS\Serializer\GraphNavigator;
 use JMS\Serializer\GraphNavigatorInterface;
 use JMS\Serializer\Handler\HandlerRegistryInterface;
 use JMS\Serializer\Metadata\ClassMetadata;
+use JMS\Serializer\Metadata\PropertyMetadata;
 use JMS\Serializer\NullAwareVisitorInterface;
 use JMS\Serializer\Visitor\DeserializationVisitorInterface;
 use Metadata\MetadataFactoryInterface;
@@ -196,6 +197,7 @@ final class DeserializationGraphNavigator extends GraphNavigator implements Grap
                 }
 
                 $this->visitor->startVisitingObject($metadata, $object, $type);
+                /** @var PropertyMetadata $propertyMetadata */
                 foreach ($metadata->propertyMetadata as $propertyMetadata) {
                     if (null !== $this->exclusionStrategy && $this->exclusionStrategy->shouldSkipProperty($propertyMetadata, $this->context)) {
                         continue;
@@ -212,9 +214,13 @@ final class DeserializationGraphNavigator extends GraphNavigator implements Grap
                     $this->context->pushPropertyMetadata($propertyMetadata);
                     try {
                         $v = $this->visitor->visitProperty($propertyMetadata, $data);
-                        $this->accessor->setValue($object, $v, $propertyMetadata, $this->context);
                     } catch (NotAcceptableException $e) {
+                        if (false === $propertyMetadata->hasDefault) {
+                            throw $e;
+                        }
+                        $v = $propertyMetadata->defaultValue;
                     }
+                    $this->accessor->setValue($object, $v, $propertyMetadata, $this->context);
 
                     $this->context->popPropertyMetadata();
                 }
