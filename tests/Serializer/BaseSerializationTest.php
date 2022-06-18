@@ -1462,7 +1462,7 @@ abstract class BaseSerializationTest extends TestCase
         }
     }
 
-    public function testConstructorPromotionWithNullField()
+    public function testConstructorPromotionWithDefaultValues()
     {
         if (PHP_VERSION_ID < 80000) {
             $this->markTestSkipped(sprintf('%s requires PHP 8.0', __METHOD__));

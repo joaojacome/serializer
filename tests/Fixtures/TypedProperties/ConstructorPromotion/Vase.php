@@ -3,7 +3,6 @@
 declare(strict_types=1);
 
 namespace JMS\Serializer\Tests\Fixtures\TypedProperties\ConstructorPromotion;
-use JMS\Serializer\Annotation as Serializer;
 
 class Vase
 {
@@ -15,4 +14,3 @@ class Vase
     ) {
     }
 }
-

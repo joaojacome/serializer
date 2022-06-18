@@ -33,8 +33,8 @@ class DefaultValuePropertyDriver implements DriverInterface
             return null;
         }
 
-        /** @var PropertyMetadata $propertyMetadata */
         foreach ($classMetadata->propertyMetadata as $key => $propertyMetadata) {
+            \assert($propertyMetadata instanceof PropertyMetadata);
             if (null !== $propertyMetadata->hasDefault) {
                 continue;
             }
@@ -55,6 +55,7 @@ class DefaultValuePropertyDriver implements DriverInterface
                                 $propertyMetadata->hasDefault = true;
                                 $propertyMetadata->defaultValue = $parameter->getDefaultValue();
                             }
+
                             break;
                         }
                     }

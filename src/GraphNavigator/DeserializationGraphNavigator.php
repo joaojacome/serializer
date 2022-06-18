@@ -197,8 +197,8 @@ final class DeserializationGraphNavigator extends GraphNavigator implements Grap
                 }
 
                 $this->visitor->startVisitingObject($metadata, $object, $type);
-                /** @var PropertyMetadata $propertyMetadata */
                 foreach ($metadata->propertyMetadata as $propertyMetadata) {
+                    \assert($propertyMetadata instanceof PropertyMetadata);
                     if (null !== $this->exclusionStrategy && $this->exclusionStrategy->shouldSkipProperty($propertyMetadata, $this->context)) {
                         continue;
                     }
@@ -218,8 +218,10 @@ final class DeserializationGraphNavigator extends GraphNavigator implements Grap
                         if (false === $propertyMetadata->hasDefault) {
                             throw $e;
                         }
+
                         $v = $propertyMetadata->defaultValue;
                     }
+
                     $this->accessor->setValue($object, $v, $propertyMetadata, $this->context);
 
                     $this->context->popPropertyMetadata();
